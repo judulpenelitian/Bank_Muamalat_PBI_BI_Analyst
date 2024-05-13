@@ -1,0 +1,44 @@
+# Menentukan Primary Key Table Customer
+SELECT CustomerID, COUNT(CustomerID) 
+as Total_Cust
+from `bi_analyst.customers`
+GROUP BY 1
+order by 1 desc
+Limit 5;
+
+# Menentukan Primary Key Table Order
+SELECT OrderID, COUNT(OrderID) as
+TotalOrders FROM `bi_analyst.order`
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5;
+
+# Menentukan Primary Key Table Product
+SELECT ProdNumber, COUNT(*) AS
+Total_Products from `bi_analyst.products`
+GROUP BY ProdNumber
+LIMIT 5;
+
+# Menentukan Primary Key Table product_category
+SELECT CategoryID, COUNT(CategoryID) as
+Total_Category FROM `bi_analyst.product_category`
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5;
+
+# Query Join Antar Table
+SELECT
+o.Date as order_date,
+pc.CategoryName as category_name,
+p.ProdName as product_name,
+o.Quantity as order_qty,
+p.Price as product_price,
+p.Price*o.Quantity as total_sales,
+c.CustomerEmail as cust_email,
+c.CustomerCity as cust_city
+
+from `bi_analyst.customers` c
+join `bi_analyst.order` o on c.CustomerID = o.CustomerID
+join `bi_analyst.products` p on o.ProdNumber = p.ProdNumber
+join `bi_analyst.product_category` pc on p.Category = pc.CategoryID
+ORDER BY o.Date ASC
